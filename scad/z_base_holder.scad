@@ -42,43 +42,46 @@ holder_height = profile_width + 14;
 
 module Z_holder_base()
 {  
+   // Mezera mezi uchytem loziska a drzakem profilu
+   gap = 1;
+   
+   // Zakladna pro loziska
    rounded_box(base_width,base_length,base_height,corner_rad,1,1,1,1);
    
-   translate([corner_rad/2 + holder_offset/2,-base_length/2 + holder_height/2,0]) rounded_box(corner_rad + holder_offset,holder_height,base_height,corner_rad,1,1,1,1);
+   translate([base_width/2 + gap/2,-base_length/2 + holder_height/2,0]) rounded_box(2*corner_rad + gap,holder_height,base_height,corner_rad,1,1,1,1);
  
    // Zakulaceny roh   
-   translate([base_width/2,-base_length/2 + holder_height,0]) rotate([0,0,180]) fillet(holder_offset -base_width/2,base_height,64);
+   translate([base_width/2,-base_length/2 + holder_height,0]) rotate([0,0,180]) fillet(10,base_height,64);
  
    // Drazka pro profil
-   translate([holder_offset + profile_width/2,-base_length/2 + holder_height,-base_height/2 + (profile_width/2 - 4)]) cube([8,3,2*(profile_width/2 - 4)],center=true);
+   translate([holder_offset + profile_width/2,-base_length/2 + holder_height,-base_height/2 + profile_width/2]) cube([8,3,profile_width],center=true);
  
-   translate([holder_offset,0,-base_height/2]) linear_extrude(height = 2*(profile_width/2 - 4))
+   // Drzak hlinikoveho profilu
+   translate([holder_offset/2 + profile_width/2 + base_width/4 + gap/2,-base_length/2 + holder_height - profile_width/2,-base_height/2 + profile_width/2]) rounded_box(profile_width + holder_offset -base_width/2 - gap,profile_width,profile_width,corner_rad,1,1,1,1);
+ 
+   translate([base_width/2 + gap,0,-base_height/2]) linear_extrude(height = profile_width)
    {
      hull()
      {
 	   translate([corner_rad/2,-base_length/2 + corner_rad/2,0]) circle(d=corner_rad,$fn=16,center=true);
        
-	   translate([-corner_rad/2 + profile_width,-base_length/2 + holder_height - corner_rad/2,0]) circle(d=corner_rad,$fn=16,center=true);
+       translate([-base_width/2 + holder_offset + profile_width/2 - M6_head_D/2 - corner_rad/2,-base_length/2 + holder_height - profile_width + corner_rad/2,0]) circle(d=corner_rad,$fn=16,center=true);
        
-	   translate([corner_rad/2,-base_length/2 + holder_height - corner_rad/2,0]) circle(d=corner_rad,$fn=16,center=true);
+	   translate([corner_rad/2,-base_length/2 + holder_height - profile_width + corner_rad/2,0]) circle(d=corner_rad,$fn=16,center=true);
      }
    }	 
 }
 
 module Z_holder_holes()
 { 
+  // Vyrez pro lozisko
   translate([0,0,base_height/2]) rotate([0,0,-270]) linear_bearing(1);
  
   // Otvor pro sroub M6
-  translate([holder_offset + profile_width/2,-base_length/2 + holder_height -M6_screw_offset,-base_height/2 + (profile_width/2 - 4)]) rotate([90,0,0]) screw_hole(0,0,M6_head_D,M6_screw_D);
+  translate([holder_offset + profile_width/2,-base_length/2 + holder_height -M6_screw_offset,-base_height/2 + profile_width/2]) rotate([90,0,0]) screw_hole(0,0,M6_head_D,M6_screw_D);
  
   // Vyrez pro profilovou matku
-  translate([holder_offset + profile_width/2 ,-base_length/2 + holder_height + 3/2,-base_height/2 + (profile_width/2 - 4)]) rotate([0,0,-90]) profile_nut(10);
- 
-  // Seriznuti otvoru M6 pro snazsi tisk
-  translate([holder_offset + profile_width/2,-base_length/2 -L_bearing/2 + holder_height -M6_screw_offset + 4,-base_height/2 + (profile_width/2 - 4) + M6_head_D]) cube([M6_head_D,42 - 9,2*M6_head_D],center=true);
-  
-  translate([holder_offset + profile_width/2 + M6_head_D/2,-base_length/2 -L_bearing/2 + holder_height -M6_screw_offset + 4,-base_height/2 + (profile_width/2 - 4) + M6_head_D/2]) cube([M6_head_D,42 - 9,2*M6_head_D],center=true);
+  translate([holder_offset + profile_width/2 ,-base_length/2 + holder_height + 3/2,-base_height/2 + profile_width/2]) rotate([0,0,-90]) profile_nut(10);
 }
 
 module linear_bearing(nut=1)
