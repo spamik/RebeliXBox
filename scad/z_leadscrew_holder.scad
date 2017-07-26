@@ -1,7 +1,7 @@
 /* 
    === RebeliX BoX ===
 
-   z bottom parts
+   z leadscrew holder
    GNU GPL v3
    Martin Neruda <neruda@RebeliX.cz>
    http://www.RebeliX.cz
@@ -128,7 +128,7 @@ module bearing_holder_cuts()
   }
 }
 
-module motor_holder_base()
+module z_motor_holder_base()
 {
   // Zakladna
   rounded_box(motor_holder_width,motor_holder_length,motor_holder_base_height,6,1,1,1,1);
@@ -141,7 +141,7 @@ module motor_holder_base()
   translate([motor_holder_width/4,motor_holder_length/2 - (motor_holder_length - profile_width)/2,-motor_holder_base_height/2 + motor_holder_height/2]) rounded_box(motor_holder_width/2,motor_holder_length - profile_width,motor_holder_height,6,1,1,1,1);
 }
 
-module motor_holder_cuts()
+module z_motor_holder_cuts()
 { 
   // Vyrez pro motor
   translate([0,motor_holder_length/2 - motor_width/2,-motor_holder_base_height/2 + motor_holder_height]) rotate([180,0,180]) nema17([1,1,1,1],1,motor_screw_offset,1,0);
@@ -206,12 +206,12 @@ module cover_cuts()
 }
 
 /* Drzak motoru */
-module motor_holder()
+module z_motor_holder()
 {
   difference()
   {
-	motor_holder_base();
-	motor_holder_cuts();
+	z_motor_holder_base();
+	z_motor_holder_cuts();
   }
 }
 
@@ -245,21 +245,15 @@ module Z_lead_holder(motor_part = 1)
   } 
 }
 
-// Cast s kladkami pro vedeni remenu
-Z_lead_holder();
+// Drzak bez kladek
+Z_lead_holder(0);
 
-// Cast bez kladek
-translate([-2*part_width,0,0]) Z_lead_holder(0);
-
-translate([part_width/2 + 25,-20,-part_height/2 + motor_holder_base_height/2]) 
-
-//translate([part_width/2 + 21,-motor_holder_length/2 + part_depth/2 + profile_width,-motor_holder_base_height/2 + motor_holder_base_height + part_height/2]) rotate([180,0,0])
-//color("blue") 
-motor_holder();
+// Drzak s kladkami pro vedeni remenu
+translate([0,-part_depth - 5,0]) Z_lead_holder(1);
 
 // Vrchni kryty
-translate([-part_width + 10,-40,-part_height/2 + cover_height/2]) 
+translate([-2*part_width + 20,-part_depth - 5,-part_height/2 + cover_height/2]) 
 cover();
 
-translate([-2*part_width,-40,-part_height/2 + cover_height/2]) 
+translate([-2*part_width + 20,0,-part_height/2 + cover_height/2]) 
 cover();

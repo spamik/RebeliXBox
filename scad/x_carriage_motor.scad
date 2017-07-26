@@ -225,13 +225,3 @@ module GT2_belt_holder()
 }
 
 x_carriage_motor();
-
-// Pozice u dilu
-//translate([0.65 -(belt_holder_width/2-M3_head_D/2 - 3) ,-motor_width - base_thick/2 - (belt_holder_width + 6)/2 + 6,-base_height/2 + belt_holder_length/2]) rotate([0,-90,180])
-
-// Pozice pro tisk
-translate([0,-motor_width - base_thick/2 - belt_holder_length/2 - 15,-base_height/2 + 3/2])
-
-//translate([0,-75,0])
-GT2_belt_holder();
- 

@@ -108,11 +108,6 @@ module Z_probe_mount()
   } 
 }
 
-translate([-35,20,-carriage_height/2 + Z_probe_base_H/2]) 
-mirror([1,0,0])
-rotate([0,0,90]) 
-Z_probe_mount();
-
 /* ============================= PROBE HOLDER END ================================== */
 
 // Cela soucastka
