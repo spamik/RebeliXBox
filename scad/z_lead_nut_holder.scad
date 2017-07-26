@@ -61,10 +61,13 @@ module nut_holder_cuts(mount_offset = 5)
   translate([0,nut_offset,part_height/2]) cylinder(d=18,h=30,$fn=64,center=true);
   
   // Vyrez pro sroub od HB
+  translate([0,9,part_height/2]) rounded_box(15,10,30,6,1,1,1,1); 
+  /*
   translate([-3,10,part_height/2 + 9]) cylinder(d=8,h=part_height,$fn=32,center=true);
   translate([3,10,part_height/2 + 9]) cylinder(d=8,h=part_height,$fn=32,center=true);
   translate([0,0,part_height/2 + 9]) cube([6,20 + 8,part_height],center=true);
-  translate([0,0,part_height/2 + 9]) cube([8 + 6,20,part_height],center=true);  
+  translate([0,0,part_height/2 + 9]) cube([8 + 6,20,part_height],center=true); 
+  */
 }
 
 module nut_holder()
