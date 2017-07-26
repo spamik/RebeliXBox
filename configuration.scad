@@ -127,19 +127,22 @@ M3x10_offset = 6; // Sroub M3x10;
 // --------------- M4 ----------------
 
 // Prumer hlavy M4 sroubu
-M4_head_D = 6.4;
+M4_head_D = 7.6;
+
+// Prumer M4 sroubu
+M4_screw_D = 4.3;
+
+// Vyska hlavy M4 sroubu
+M4_head_H = 4;
+
+// Tloustka M4 podlozky
+M4_washer_H = 0.8;
 
 // Prumer M4 matky
 M4_nut_D=8.4;
 
 // Vyska M4 matky
 M4_nut_H=3.5;
-
-// Prumer M4 sroubu
-M4_screw_D = 4.3;
-
-// Tloustka M4 podlozky
-M4_washer_H = 0.8;
 
 // --------------- M6 ----------------
 
@@ -281,6 +284,8 @@ idler_Flange_Deep = 0;
 idler_screw_D = M4_screw_D;
 // Prumer hlavy sroubu
 idler_screw_head_D = M4_head_D;
+// Vyska hlavy sroubu
+idler_screw_head_H = M4_head_H;
 // Prumer matky
 idler_nut_D = M4_nut_D;
 // Vyska matky
@@ -305,6 +310,8 @@ idler_Flange_Deep = 0;
 idler_screw_D = M3_screw_D;
 // Prumer hlavy sroubu
 idler_screw_head_D = M3_head_D;
+// Vyska hlavy sroubu
+idler_screw_head_H = M3_head_H;
 // Prumer matky
 idler_nut_D = M3_nut_D;
 // Vyska matky
