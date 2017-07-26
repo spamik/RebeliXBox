@@ -14,7 +14,7 @@ include <inc/functions.scad>
 
 // Vyska matky + podlozky pod lozisky
 //nut_and_washer_height = 4;
-nut_and_washer_height = 5.8; // S pojistnou matkou
+nut_and_washer_height = 5.8 - 0.8; // S pojistnou matkou
 
 /* ----------- Zakladna pro pridelani na MGN12_H ----------- */
 
