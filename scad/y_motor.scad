@@ -14,7 +14,7 @@ M6_screw_offset = M6x14_offset;
 motor_screw_offset = M3x10_offset;
 
 // Posun motoru
-motor_offset = -10;
+motor_offset = -7;
 
 base_height = motor_screw_offset + M3_head_H;
 base_width = motor_width;
