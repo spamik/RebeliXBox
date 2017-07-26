@@ -59,7 +59,7 @@ module y_idler_cuts()
     // Otvor pro sroub
 	rotate([0,90,0]) cylinder(d=idler_screw_D, h = part_width+1, $fn = 30,center=true);
     // Otvor pro hlavu sroubu
-    translate([part_width/2,0,0]) rotate([0,90,0])cylinder(d=idler_screw_head_D,h=wall_thick,$fn=32,center=true);
+    translate([part_width/2,0,0]) rotate([0,90,0])cylinder(d=idler_screw_head_D,h=2*idler_screw_head_H,$fn=32,center=true);
     // Otvor na matku
     translate([-part_width/2,0,0]) rotate([0,90,0]) cylinder(d=idler_nut_D, h = 2*idler_nut_H ,$fn=6,center=true);	
   }
