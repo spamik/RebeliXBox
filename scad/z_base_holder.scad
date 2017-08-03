@@ -51,13 +51,18 @@ module Z_holder_base()
    translate([base_width/2 + gap/2,-base_length/2 + holder_height/2,0]) rounded_box(2*corner_rad + gap,holder_height,base_height,corner_rad,1,1,1,1);
  
    // Zakulaceny roh   
-   translate([base_width/2,-base_length/2 + holder_height,0]) rotate([0,0,180]) fillet(10,base_height,64);
+   translate([base_width/2,-base_length/2 + holder_height,0]) rotate([0,0,180]) fillet(3,base_height,64);
  
    // Drazka pro profil
    translate([holder_offset + profile_width/2,-base_length/2 + holder_height,-base_height/2 + profile_width/2]) cube([8,3,profile_width],center=true);
  
    // Drzak hlinikoveho profilu
-   translate([holder_offset/2 + profile_width/2 + base_width/4 + gap/2,-base_length/2 + holder_height - profile_width/2,-base_height/2 + profile_width/2]) rounded_box(profile_width + holder_offset -base_width/2 - gap,profile_width,profile_width,corner_rad,1,1,1,1);
+   translate([holder_offset/2 + profile_width/2 + base_width/4 + gap/2,-base_length/2 + holder_height - profile_width/2,-base_height/2 + profile_width/2]) rounded_box(profile_width + holder_offset -base_width/2 - gap,profile_width,profile_width,2,1,1,1,1);
+ 
+   translate([holder_offset + profile_width + 5/2,-base_length/2 + holder_height - profile_width/2 + 5/2,-base_height/2 + profile_width/2]) rounded_box(5,profile_width + 5,profile_width,2,1,1,1,1);
+   
+   translate([holder_offset/2 + profile_width/2 + base_width/4 + gap/2 + 5/2,-base_length/2 + holder_height - profile_width/2,-base_height/2 + profile_width/2]) rounded_box(profile_width + holder_offset -base_width/2 - gap + 5,profile_width,profile_width,2,1,1,1,1);
+ 
  
    translate([base_width/2 + gap,0,-base_height/2]) linear_extrude(height = profile_width)
    {
@@ -82,6 +87,8 @@ module Z_holder_holes()
  
   // Vyrez pro profilovou matku
   translate([holder_offset + profile_width/2 ,-base_length/2 + holder_height + 3/2,-base_height/2 + profile_width/2]) rotate([0,0,-90]) profile_nut(10);
+  
+  translate([holder_offset + profile_width - 0.3,-base_length/2 + holder_height + 0.3,-base_height/2 + profile_width/2]) cylinder(d=1,h=profile_width + 1,$fn=16,center=true);
 }
 
 module linear_bearing(nut=1)
