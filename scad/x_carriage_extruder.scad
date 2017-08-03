@@ -66,11 +66,15 @@ module x_carriage_holes()
   {
 	translate([carriage_length/2 - 6,0,0]) nut_hole(1);
 	translate([-carriage_length/2 + 6,0,0]) rotate([0,0,180]) nut_hole(1);
-	translate([0,-carriage_width/2 + 5,0]) rotate([0,0,-90]) nut_hole(1); 
+	translate([1.5,-carriage_width/2 + 5,0]) rotate([0,0,-90]) nut_hole(1); 
   }	
   // Otvory pro pridelani Z probe
   translate([-carriage_length/2 + 10,part_length/2 - 4,0]) rotate([0,90,90]) nut_hole(0,20);
   translate([carriage_length/2 - 10,part_length/2 - 4,0]) rotate([0,90,90]) nut_hole(0,20);
+  
+  // Vyrez pro vedeni kabelu
+  translate([carriage_length/2,-part_length/2,0]) cube([20,2*extra_length,carriage_height + 1],center=true);
+  
 }
 
 /* ============================= PROBE HOLDER START ================================== */

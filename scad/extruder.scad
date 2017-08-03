@@ -38,7 +38,7 @@ filament_offset = drive_gear_hobbed_radius/2 + filament_diameter / 2 - drive_gea
 // Prumer teflonove trubicky
 teflon_tube_diameter = 4;
 
-x_motor_offset = -10;
+x_motor_offset = 0;
 
 // Hodnota z nozzle_mount.scad (sirka drzaku HE)
 //mount_width = 20;
@@ -56,8 +56,8 @@ extruder_mount_height = width_carriage/2 + 10;
 pneufit_dia = 4.6;
 pneufit_length = 4;
 
-echo("Z probe Y-offset",30/2 + 12/2);
-echo("Z probe X-offset",motor_width/2 - abs(filament_offset + x_motor_offset) + 12/2);
+echo("Z probe Y-offset",HE_mount_height/2 + Z_probe_D/2);
+echo("Z probe X-offset",motor_width/2 + abs(filament_offset + x_motor_offset) + Z_probe_D/2);
 
 module extruder_base()
 {
@@ -73,9 +73,12 @@ module extruder_base()
   translate([x_motor_offset + filament_offset,-motor_width/4,15/2]) cube([ext_idler_OUT_D,motor_width/2, base_height + 15],center=true);
  
   // Zakladna pro pridelani HE 
-  translate([0,-motor_width/2-extruder_mount_height/2 + 0.001,-base_height/2 + HE_mount_height/2]) rounded_box(motor_width,extruder_mount_height,HE_mount_height,6,1,0,1,1);
+  translate([10/2,-motor_width/2-extruder_mount_height/2 + 0.001,-base_height/2 + HE_mount_height/2]) rounded_box(motor_width - 10,extruder_mount_height,HE_mount_height,2,1,0,0,1);
   
-  translate([x_motor_offset/2,-motor_width/2-extruder_mount_height + extruder_mount_height/4,-base_height/2 + HE_mount_height/2]) rounded_box(motor_width - x_motor_offset,extruder_mount_height/2,HE_mount_height,6,1,1,1,1);
+  translate([x_motor_offset/2,-motor_width/2 - width_carriage/2 - 1,-base_height/2 + 10/2]) rounded_box(motor_width - x_motor_offset,extruder_mount_height/2,10,6,1,1,1,1);
+  
+  // Pridelani bloweru
+  translate([-motor_width/2 + 15,-motor_width/2 + 9/2,-base_height/2 + HE_mount_height/2]) rounded_box(10,9,HE_mount_height,2,0,1,1,0);
 }
 
 module extruder_holes()
@@ -95,7 +98,7 @@ module extruder_holes()
   MGN12_holes = [
 	[length_carriage/2 - 6,-motor_width/2 - width_carriage/2,-base_height/2 + extruder_mount_offset],
 	[-length_carriage/2 + 6,-motor_width/2 - width_carriage/2,-base_height/2 + extruder_mount_offset],
-	[0,-motor_width/2 - 5,-base_height/2 + extruder_mount_offset],
+	[-1.5,-motor_width/2 - 5,-base_height/2 + extruder_mount_offset],
   ];
     
   // Otvory pro pridelani motoru 
@@ -131,17 +134,18 @@ module extruder_holes()
 	  }
     }
 	// Zip paska na prichyceni kabelu od HE
-	translate([-motor_width/2,-5,-15/2]) zip_paska(5);
+  translate([-motor_width/2 + 10,-motor_width/2 - 5,-15/2]) zip_paska(4);
+	translate([-motor_width/2 + 10,-motor_width/2 - 5,-15/2 + 10]) zip_paska(4);
   }
   
   // Vyrez pro matku pritlacneho raminka
-  translate([0,0,base_height/2]) cylinder(d=9,h=6,$fn=32,center=true);
+  translate([x_motor_offset + 23/2,0,base_height/2]) cylinder(d=9,h=6,$fn=32,center=true);
   
   // Vyrez pro pruzinu
-  translate([x_motor_offset -motor_width/2 + spring_D/2 + 3,10,base_height/2 + 15/2]) rotate([90,0,0]) cylinder(d=spring_D + 0.3,h=spring_L,$fn=32,center=true);
+  translate([x_motor_offset -motor_width/2 + spring_D/2 + 2,10,base_height/2 + 15/2]) rotate([90,0,0]) cylinder(d=spring_D + 0.3,h=spring_L,$fn=32,center=true);
   
   // Vyrez pro maticku od pruzinky
-  translate([x_motor_offset -motor_width/2 + spring_D/2 + 3,-1,base_height/2 + 15/2]) rotate([0,-90,90]) nut_hole(0,20);
+  translate([x_motor_offset -motor_width/2 + spring_D/2 + 2,-1,base_height/2 + 15/2]) rotate([0,-90,90]) nut_hole(0,20);
 
   // Otvory pro pridelani na carriage
   for (a = MGN12_holes)
@@ -149,18 +153,18 @@ module extruder_holes()
 	{
 	  rotate([180,0,0]) screw_hole(0);
 	}
-  // Vyrez pro HE
-  translate([filament_offset + x_motor_offset,-motor_width/2 - extruder_mount_height + 4.8 - 0.005,-base_height/2 + 30/2]) rotate([90,0,0]) grooveMGN12_holes();	
-
-  // Vyrez pro drzak HE
-  translate([filament_offset + x_motor_offset - 20,-motor_width/2 - extruder_mount_height + 4.8,-base_height/2 + 30/2]) rotate([90,-90,0]) nut_hole(0,20);
   
-  translate([filament_offset + x_motor_offset + 13,-motor_width/2 - extruder_mount_height + 4.8,-base_height/2 + 30/2]) rotate([90,-90,0]) nut_hole(0,20);
+  // Vyrez pro HE
+  translate([filament_offset + x_motor_offset,-motor_width/2 - extruder_mount_height + 4.8 - 0.005,HE_mount_height >= 31 ? -base_height/2 + HE_mount_height/2 : -base_height/2 + 31/2]) rotate([90,0,0]) grooveMGN12_holes();	
+  
+  translate([filament_offset + x_motor_offset,-motor_width/2 - extruder_mount_height + 4.8,-base_height/2 + HE_mount_height - M3_nut_D/2]) rotate([90,-90,0]) nut_hole(0,20);
+  
+  translate([filament_offset + x_motor_offset,-motor_width/2 - extruder_mount_height + 4.8,-base_height/2 + M3_nut_D/2]) rotate([90,90,0]) nut_hole(0,20);
 
   // Otvory pro blower
-  translate([-motor_width/2 + 8,-motor_width/2 - 5,-base_height/2 + HE_mount_height - 5 ]) rotate([0,0,180]) nut_hole(1);
+  translate([-motor_width/2 + 15,-motor_width/2 + 5,-base_height/2 + HE_mount_height - 5 ]) rotate([0,0,90]) nut_hole(1);
   
-  translate([motor_width/2 - 8,-motor_width/2 - 5,-base_height/2 + HE_mount_height - 5 ]) nut_hole(1);
+  translate([motor_width/2 - M3_nut_D/2,-motor_width/2 - 5,-base_height/2 + HE_mount_height - 5 ]) nut_hole(1);
 }
 
 module grooveMGN12_holes (extruder_recess_big_d=16.4, 
@@ -223,7 +227,7 @@ module packa_extruderu_cuts(height = 15)
   }
   
   // Vyrez pro pruzinu
-  translate([-motor_width/2 + spring_D/2 + 3,motor_width/2 - 9,0]) rotate([90,0,0]) screw_hole(0,1,spring_D,spring_screw_D); 
+  translate([-motor_width/2 + spring_D/2 + 2,motor_width/2 - 9,0]) rotate([90,0,0]) screw_hole(0,1,spring_D,spring_screw_D); 
 }
 
 // Cela soucastka
@@ -245,7 +249,7 @@ module packa_extruderu(packa_height)
   }
 }
 
-//mirror([0,1,0])
+mirror([0,1,0])
 extruder();
 
 rotate([-90,0,0]) 

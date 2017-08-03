@@ -71,9 +71,6 @@ module x_carriage_base()
   // Zakladna
   cube([base_width,base_thick,base_height],center=true);
   
-  // Drzak Y endstopu
-  translate([0,0,y_endstop_height/2])cube([base_width,base_thick,base_height + y_endstop_height],center=true);
-  
   // Motor
   translate([motor_width/2 - base_width/2 + wall_W/2,-motor_width/2 - base_thick/2,-base_height/2 + motor_mount_height/2]) rounded_box(motor_width + wall_W,motor_width,motor_mount_height,6,1,0,1,1);
   
@@ -91,7 +88,7 @@ module x_carriage_base()
   translate([base_width/2 + rail_holder_length/2 - 0.001,-base_thick/2 - motor_width/4 + 10/2 + 5/2,-base_height/2 + rail_holder_height/2 + 2/2]) rounded_box(rail_holder_length, motor_width/2 - 10 - 5,rail_holder_height + 2,4,0,0,1,1); 
   
   // Cable X motor holder
-  translate([(wall_W + motor_width + 10)/2 - base_width/2,-base_thick/2 - motor_width/4 + 10/2,-base_height/2 + motor_mount_height/2]) rounded_box(wall_W + motor_width + 10, motor_width/2 - 10,motor_mount_height,4,0,0,1,1);
+  translate([(wall_W + motor_width + 10)/2 - base_width/2,-base_thick/2 - motor_width/4 + 10/2,-base_height/2 + rail_holder_height/2 + 2/2]) rounded_box(wall_W + motor_width + 10, motor_width/2 - 10,rail_holder_height + 2,4,0,0,1,1);
   
   // Drzak energo retezu
   translate([profile_width/2 + chain_holder_W/2 + chain_x_offset,-base_thick/2 + rail_W + chain_holder_H/2 + chain_holder_offset,-base_height/2 + chain_holder_L/2]) rounded_box(chain_holder_W,chain_holder_H,chain_holder_L,4,0,0,0,0);
@@ -131,23 +128,17 @@ module x_carriage_holes()
 	translate([0,0,-base_height/2 + belt_holder_length - 6]) rotate([0,-90,180]) nut_hole(0);
 	translate([0,0,-base_height/2 + 6]) rotate([0,90,0]) nut_hole(0);
   }
-   
-  // Vyrez pro Y endstop
-  translate([0,base_thick/2 - 2,base_height/2 + y_endstop_height/2]) cube([20.4,6.5,y_endstop_height + 0.1],center=true);
-  
-  translate([5
-  ,-base_thick/2,base_height/2 + y_endstop_height - 4]) rotate([90,0,0]) cylinder(d=1.9,h=20,$fn=16,center=true);
-  
-  translate([-5
-  ,-base_thick/2,base_height/2 + y_endstop_height - 4]) rotate([90,0,0]) cylinder(d=1.9,h=20,$fn=16,center=true);
-  
+     
   // Vyrez pro konektor od X motoru
   translate([(base_width - 1)/2 + 12 + cable_offset + 1,-base_thick/2 - motor_width/4 + 10/2,0]) motor_connector_cut();
   
-  //translate([profile_width/2 + chain_holder_W/2 + chain_x_offset - cable_offset,-base_thick/2 + rail_W + chain_holder_H/2 + chain_holder_offset,-base_height/2 + chain_holder_L/2])motor_connector_cut();
+  // Otvory pro pridelani X endstopu
+  translate([profile_width/2 + chain_holder_W/2 + chain_x_offset + 8/2,-base_thick/2 + rail_W + chain_holder_H/2 + chain_holder_offset,-base_height/2 + chain_holder_L]) cylinder(d=2,h=20,$fn=16,center=true);
+  
+  translate([profile_width/2 + chain_holder_W/2 + chain_x_offset - 8/2,-base_thick/2 + rail_W + chain_holder_H/2 + chain_holder_offset,-base_height/2 + chain_holder_L]) cylinder(d=2,h=20,$fn=16,center=true);
   
   // Vyrez pro kablik od Y endstopu
-  translate([0,base_thick/2,y_endstop_height/2]) cube([6.5,8,base_height + y_endstop_height + 10],center=true);
+  translate([0,base_thick/2,y_endstop_height/2]) cube([6.5,base_thick + 2,base_height + y_endstop_height + 10],center=true);
   
   // Otvory pro pridelani chain holderu
   translate([profile_width/2 + chain_holder_W/2 + chain_x_offset,-base_thick/2 + rail_W + chain_holder_offset + 20/2,-base_height/2 + 5]) 
@@ -157,13 +148,9 @@ module x_carriage_holes()
 	translate([0,0,10]) rotate([90,0,0]) cylinder(d=2,h=20,$fn=16,center=true);
 	translate([0,0,9]) cube([2,20,2],center=true);
   }
-
-  // Otvory pro pridelani X endstopu
-  translate([profile_width/2 + chain_holder_W + chain_x_offset,-base_thick/2 + rail_W + chain_holder_offset + 20/2 - 5,-base_height/2 + 5]) rotate([0,90,0]) cylinder(d=2.4,h=20,$fn=16,center=true);
-  translate([profile_width/2 + chain_holder_W + chain_x_offset,-base_thick/2 + rail_W + chain_holder_offset + 20/2 - 5,-base_height/2 + 5 + 8]) rotate([0,90,0]) cylinder(d=2.4,h=20,$fn=16,center=true);
   
   // Otvor pro zip pasku pro kabely od endstopu
-  translate([10,-1,-base_height/2]) rotate([0,90,0]) zip_paska(4);
+  translate([39,-1,-base_height/2]) rotate([40,90,0]) zip_paska(4);
 }
 
 module GT2_belt_holder_base()
