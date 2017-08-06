@@ -252,5 +252,6 @@ module packa_extruderu(packa_height)
 mirror([0,1,0])
 extruder();
 
+mirror([0,1,0])
 rotate([-90,0,0]) 
-translate([x_motor_offset + 30,- motor_width/2 + base_height/2,base_height/2]) rotate([0,90,0]) packa_extruderu(packa_height);
+translate([x_motor_offset + 30,- motor_width/2 + base_height/2,0]) rotate([0,90,0]) packa_extruderu(packa_height);
