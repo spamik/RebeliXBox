@@ -33,6 +33,10 @@ cut_T = 2;
 //Vzdalenost od profilu
 //chain_x_offset = 1.5;
 
+// Vyska drzaku energo remenu motoru extruderu
+motor_base_extra_height = 9;
+motor_base_height = chain_mount_W + mantinel_W + motor_base_extra_height;
+
 corner_dia = 3;
 
 module chain_holder_base(holder_length = 15)
@@ -94,65 +98,63 @@ module x_chain_holder_cuts(lock = 0)
   translate([-holder_width/2 - mount_length + 5 + 3.5,mount_offset,0]) rotate([0,-90,0]) nut_hole(0,20);
 }
 
-module y_chain_holder_base(top_holder_H = 36)
+module y_chain_holder_base(top_holder_L = 41)
 {  
-  holder_length = 20;
+  y_holder_H = 20;
  
   pos_x = chain_mount_W/2 + chain_x_offset + mantinel_W + profile_width/2;
  
   // Drzak energetickho retezu
-  chain_holder_base(20);
+  chain_holder_base(y_holder_H);
   
   hull()
   {
-    translate([-(holder_width + 10)/2 + 10/2,0,0]) rounded_box(10,holder_height,holder_length,3,1,1,1,1); 
+    translate([-(holder_width + 10)/2 + 10/2,0,0]) rounded_box(10,holder_height,y_holder_H,3,1,1,1,1); 
   
-	translate([-pos_x,-top_holder_H + 1/2,0]) cube([profile_width,1,holder_length],center=true);
+	translate([-pos_x,-top_holder_L + 1/2,0]) cube([profile_width,1,y_holder_H],center=true);
   }
   
   // Drazka pro prichyceni do profilu
-  translate([-pos_x,-top_holder_H + 1/2,0]) cube([8,3,holder_length],center=true);
+  translate([-pos_x,-top_holder_L + 1/2,0]) cube([8,3,y_holder_H],center=true);
 }
 
-module y_chain_holder_cuts(lock = 0, top_holder_H = 36)
+module y_chain_holder_cuts(lock = 0, top_holder_L = 41)
 {  
+  y_holder_H = 20;
+  
   pos_x = chain_mount_W/2 + chain_x_offset + mantinel_W + profile_width/2;
   
   // Vyrez pro retez
-  translate([0,0,0]) chain_holder_cuts(1,20);
+  chain_holder_cuts(1,y_holder_H);
   
   // Otvory pro prichyceni
-  translate([-pos_x,-top_holder_H + M6_screw_offset,0]) rotate([-90,0,0]) screw_hole(0,0,M6_head_D,M6_screw_D);
+  translate([-pos_x,-top_holder_L + M6_screw_offset,0]) rotate([-90,0,0]) screw_hole(0,0,M6_head_D,M6_screw_D);
   
-  translate([-pos_x-M6_head_D/2,-top_holder_H + 50/2 + M6_screw_offset,0]) cube([M6_head_D,50,M6_head_D],center=true);
+  translate([-pos_x-M6_head_D/2,-top_holder_L + 50/2 + M6_screw_offset,0]) cube([M6_head_D,50,M6_head_D],center=true);
   
-  translate([-pos_x -20/2 + M6_head_D/2,-top_holder_H + 50/2 + M6_screw_offset,M6_head_D/2]) cube([20,50,M6_head_D],center=true);
+  translate([-pos_x -20/2 + M6_head_D/2,-top_holder_L + 50/2 + M6_screw_offset,y_holder_H/2]) cube([20,50,y_holder_H],center=true);
   
   // Vyrez pro profilovou matku
-  translate([-pos_x,-top_holder_H  - 3/2,0]) rotate([0,0,90]) profile_nut(10);
+  translate([-pos_x,-top_holder_L  - 3/2,0]) rotate([0,0,90]) profile_nut(10);
 }
 
-module chain_holder_motor_base(endstop_offset = 6)
+module chain_holder_motor_base()
 { 
-  motor_base_height = chain_mount_W + mantinel_W;
-  
-  translate([-motor_width/2 + 16/2,0,0]) rounded_box(16,motor_width,motor_base_height,2,1,1,1,1);
+  translate([-motor_width/2 + 16/2,0,0]) rounded_box(16,motor_width,motor_base_height,6,1,1,1,1);
 
-  translate([-motor_width/2 + 16/2 + 2/2,motor_width/4,-motor_base_height/2 + mantinel_W/2]) rounded_box(16 + 2,motor_width/2,mantinel_W,2,1,1,1,1);
+  translate([-motor_width/2 + 16/2 + 2/2,motor_width/4,-motor_base_height/2 + (motor_base_height - chain_mount_W)/2]) rounded_box(16 + 2,motor_width/2,motor_base_height - chain_mount_W,6,1,1,1,1);
 }
 
-module chain_holder_motor_cuts(endstop_offset = 6)
+module chain_holder_motor_cuts()
 {    
-  motor_base_height = chain_mount_W + mantinel_W;
-  
   for (a = motor_mount_holes)
-  translate(a + [0,0,-motor_base_height/2 + 8]) 
+  translate(a + [0,0,-motor_base_height/2 + 6]) 
 	{
 	  screw_hole(0);
 	}
   
   // Vyrez pro drzak retezu
-  translate([-motor_width/2 + 15,motor_width/2 - 6,0])
+  translate([-motor_width/2 + 15,motor_width/2 - 6,motor_base_height/2 - chain_mount_W/2])
   {
     rotate([0,90,0,]) cylinder(d=2.2,h=20,$fn=32,center=true);
     
@@ -209,7 +211,7 @@ y_chain_holder(1);
 translate([15,75,0]) 
 y_chain_holder(1);
 
-translate([0,110,-mantinel_W/4]) 
+translate([0,110,motor_base_height/2 - 20/2]) 
 rotate([0,0,90]) 
 chain_holder_motor();
 
