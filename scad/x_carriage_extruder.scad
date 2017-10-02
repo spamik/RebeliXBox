@@ -18,7 +18,7 @@ carriage_length = 44;
 // Sirka voziku
 carriage_width = MGN12_W + 1;
 // Vyska voziku
-carriage_height = 10;
+carriage_height = 19;
 
 // Ochrana remene
 belt_protector_length = 0;
@@ -58,24 +58,35 @@ module x_carriage_holes()
 	rotate([180,0,0]) screw_hole(1);
   }
   
+  translate([0,-part_length/2 + carriage_width/2 + extra_length - MGN12_holes[0][1],carriage_height/2 -mount_screw_offset - 30/2]) cube([MGN12_holes[0][0] + MGN12_holes[1][0],M3_head_D,30],center=true);
+  
   // Vyrez pro remen
   translate([0,-part_length/2 + carriage_width/2 + extra_length + belt_position,carriage_height/2 + MGN12_H - rail_H]) belt_holder_beltcut(carriage_length + 6,6.2,6.8);
   
-  // otvory pro pridelani extruderu
-  translate([0,-part_length/2 + carriage_width/2,-1])
+  // Otvory pro pridelani extruderu
+  translate([0,-part_length/2 + carriage_width/2,-2])
   {
-	translate([carriage_length/2 - 6,0,0]) nut_hole(1);
-	translate([-carriage_length/2 + 6,0,0]) rotate([0,0,180]) nut_hole(1);
-	translate([1.5,-carriage_width/2 + 5,0]) rotate([0,0,-90]) nut_hole(1); 
+	translate([carriage_length/2 - 6,0,0]) nut_hole(1,50);
+	translate([carriage_length/2 - 6,11,0]) nut_hole(1,50);
+	translate([-carriage_length/2 + 6,0,0]) rotate([0,0,180]) nut_hole(1,50);
+	translate([-carriage_length/2 + 6,11,0]) rotate([0,0,180]) nut_hole(1,50);
   }	
-  // Otvory pro pridelani Z probe
-  translate([-carriage_length/2 + 10,part_length/2 - 4,0]) rotate([0,90,90]) nut_hole(0,20);
-  translate([carriage_length/2 - 10,part_length/2 - 4,0]) rotate([0,90,90]) nut_hole(0,20);
   
   // Vyrez pro vedeni kabelu
-  translate([carriage_length/2,-part_length/2,0]) cube([20,2*extra_length,carriage_height + 1],center=true);
+  translate([carriage_length/2 - Z_probe_D/2,-part_length/2,0]) cube([carriage_length,2*extra_length - 3,carriage_height + 1],center=true);
   
+  // Vyrez pro Z probe
+  translate([0,0,0]) rotate([90,0,0]) cylinder(d=Z_probe_D,h=part_length + 1,$fn=64,center=true);
+  
+  translate([0,-25,-part_height/2]) cube([Z_probe_D,part_length + 1,part_height],center=true);
+  
+  translate([0,part_length/2 - 10,0]) 
+  {
+    rotate([90,30,0]) cylinder(d=Z_probe_nut_D,h=Z_probe_nut_H,$fn=6,center=true);
+    translate([0,0,-carriage_height/2]) cube([Z_probe_nut_D*cos(30),Z_probe_nut_H,carriage_height],center=true);
+  }
 }
+
 
 /* ============================= PROBE HOLDER START ================================== */
 
