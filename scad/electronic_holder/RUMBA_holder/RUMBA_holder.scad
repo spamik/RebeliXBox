@@ -28,6 +28,12 @@ solid_plate = 0;
 sloupek = 13;
 PCB_thickness = 2;
 
+// Drzak energo retezu
+HB_chain_holder = 1;
+chain_holder_L = 35; 
+chain_holder_W = small_chain_H + 2*small_mantinel_W;
+chain_holder_H = tloustka + small_chain_mount_W;
+
 // Radius zakulacenych rohu
 corner_rad = 3;
 
@@ -51,8 +57,8 @@ RUMBA_mount_holes_offset = [0,0,0];
 
 cover_corners = [
 	[rohy_prumer/2 - 3,rohy_prumer/2 - 3,0],
-	[sirka-rohy_prumer/2 + 3,rohy_prumer/2 - 3,0],
-	[sirka-rohy_prumer/2 + 3,vyska-rohy_prumer/2 + 3,0],
+	[sirka-rohy_prumer/2 + 3 + 10,rohy_prumer/2 - 3,0],
+	[sirka-rohy_prumer/2 + 3 + 10,vyska-rohy_prumer/2 + 3,0],
 	[rohy_prumer/2 - 3,vyska-rohy_prumer/2 + 3,0]
 ];
 
@@ -74,7 +80,7 @@ module plate()
   {
     union()
 	{
-	  translate([(sirka/2 + 10 + 15/2 - plate_height)/2,vyska/2 - tloustka/2,0]) cube([sirka/2 + 10 + 15/2 - plate_height,vyska,plate_height],center=true);
+	  translate([(sirka/2 + 10 + 15/2 - plate_height)/2 + 4/2,vyska/2 - tloustka/2,0]) cube([sirka/2 + 10 + 15/2 - plate_height + 4,vyska,plate_height],center=true);
   
       intersection()
       {
@@ -85,9 +91,9 @@ module plate()
   
       intersection()
       {
-        translate([sirka/2 + 10 + 15/2 - plate_height/2,vyska/2 - tloustka/2,0]) cube([plate_height,vyska,plate_height],center=true);
+        translate([sirka/2 + 10 + 15/2 - plate_height/2 + 4,vyska/2 - tloustka/2,0]) cube([plate_height,vyska,plate_height],center=true);
   
-        translate([sirka/2 + 10 + 15/2 - plate_height,vyska/2 - tloustka/2,-plate_height/2]) rotate([90,0,0]) cylinder(d=2*plate_height,h=vyska,$fn=32,center=true);
+        translate([sirka/2 + 10 + 15/2 - plate_height + 4,vyska/2 - tloustka/2,-plate_height/2]) rotate([90,0,0]) cylinder(d=2*plate_height,h=vyska,$fn=32,center=true);
       }
 	}
    translate([-plate_height,vyska/2 - 10,-plate_height/2 - 1/2]) rotate([0,0,40]) cube([sirka,vyska,plate_height + 1],center=false);
@@ -152,7 +158,8 @@ module obvod(length)
 		cylinder(d=rohy_prumer,h=tloustka,$fn=32);
 	  } 
 	}	
-	translate([tloustka_steny,tloustka_steny,solid_plate == 0 ? -0.1 : 2*layer_height]) cube([sirka-2*tloustka_steny,vyska-2*tloustka_steny,tloustka+1]);
+	//translate([tloustka_steny,tloustka_steny,solid_plate == 0 ? -0.1 : 2*layer_height]) cube([sirka-2*tloustka_steny,vyska-2*tloustka_steny,tloustka+1]);
+	//translate([tloustka_steny,tloustka_steny,tloustka/2]) cube([sirka-2*tloustka_steny,vyska-2*tloustka_steny,tloustka]);
   }
   
   // Sloupky pro srouby
@@ -232,6 +239,49 @@ module otvory()
   }
 }
 
+module chain_holder_hb_base()
+{
+  rounded_box(chain_holder_W,chain_holder_L,tloustka - 3,4,1,1,1,1);
+  
+  translate([-chain_holder_W/2 + small_mantinel_W/2,- 5/2 ,-(tloustka - 3)/2 + chain_holder_H/2]) rounded_box(small_mantinel_W,chain_holder_L - 5,chain_holder_H,4,1,1,1,1);
+  
+  translate([-chain_holder_W/2 + small_mantinel_W/2, 0,-(tloustka - 3)/2 + 8/2]) rounded_box(small_mantinel_W,chain_holder_L,8,4,1,1,1,1);
+  
+  translate([chain_holder_W/2 - small_mantinel_W/2,- 5/2 ,-(tloustka - 3)/2 + chain_holder_H/2]) rounded_box(small_mantinel_W,chain_holder_L - 5,chain_holder_H,4,1,1,1,1);
+  
+  translate([chain_holder_W/2 - small_mantinel_W/2, 0,-(tloustka - 3)/2 + 8/2]) rounded_box(small_mantinel_W,chain_holder_L,8,4,1,1,1,1);
+}
+
+module chain_holder_hb_cuts()
+{
+  translate([chain_holder_W/2 - small_mantinel_W/2,0,0]) 
+  {
+    cube([2,4,50],center=true);
+  }	
+  
+  translate([-chain_holder_W/2 + small_mantinel_W/2,0,0]) 
+  {
+    cube([2,4,50],center=true);
+  }	
+
+  translate([0,chain_holder_L/2 + 2.5/2 - 13,(tloustka - 3)/2 + small_chain_mount_W/2]) 
+  cube([chain_holder_W + 1,2.5,4],center=true);
+  translate([0,chain_holder_L/2 - 2.5/2 - 22,(tloustka - 3)/2 + small_chain_mount_W/2]) cube([chain_holder_W + 1,2.5,4],center=true);
+  
+  translate([0,0,(tloustka - 3)/2 + chain_holder_H - 6 + 0.01]) cube([chain_holder_W - small_mantinel_W,4,6],center=true);
+}
+
+module chain_holder_hb()
+{
+  difference()
+  {
+    chain_holder_hb_base();
+    chain_holder_hb_cuts();
+  }
+}
+
+//chain_holder_hb();
+
 module RUMBA_holder()
 {
   difference()
@@ -239,23 +289,24 @@ module RUMBA_holder()
     union()
     {
 	  obvod();
-	  mrizka();
+	  //mrizka();
 	  
 	  // Sloupky pro pridelani na profil
-	  translate([sirka + 20/2 - cover_corners[0][0] + 0.01,vyska + rohy_prumer/2 - 20/2 - cover_corners[0][0],tloustka/2]) rotate([0,0,180]) holder(20,15);
+	  translate([sirka + 20/2 - cover_corners[0][0] + 0.01 + 4/2,vyska + rohy_prumer/2 - 20/2 - cover_corners[0][0],tloustka/2]) rotate([0,0,180]) holder(20,19);
 	  
-	  translate([sirka + 20/2 - cover_corners[0][0] + 0.01,-rohy_prumer/2 + 20/2 + cover_corners[0][0],tloustka/2]) rotate([0,0,180]) mirror([0,1,0]) holder(20,15);
+	  translate([sirka + 20/2 - cover_corners[0][0] + 0.01 + 4/2,-rohy_prumer/2 + 20/2 + cover_corners[0][0],tloustka/2]) rotate([0,0,180]) mirror([0,1,0]) holder(20,19);
 	  
 	  // Vyztuha
 	  translate([sirka/2 - cover_corners[0][0],-rohy_prumer/2 + cover_corners[0][0] - wall_thickness/2 + 0.001,tloustka/2]) rotate([90,0,0]) plate();
 	  
 	  translate([sirka/2 - cover_corners[0][0],vyska + rohy_prumer/2 - cover_corners[0][0] - wall_thickness/2 + wall_thickness - 0.001,tloustka/2]) rotate([90,0,0]) mirror([0,0,1]) plate();
 	  
+	  translate([chain_holder_W/2 + 11,5/2 - (chain_holder_L - 5)/2 - corner_rad,(tloustka - 3)/2]) chain_holder_hb();
     }	
   otvory();
   
   // Otvovry pro zip pasky (motory)
-  translate([sirka,5*15/2,tloustka/2]) wire_holder_cuts(5,9);
+  translate([sirka + 7,5*15/2 + 16/2,tloustka/2]) wire_holder_cuts(4,9);
   
   // Zip pasky
   for(a = zip_position)
@@ -265,11 +316,11 @@ module RUMBA_holder()
   }	
   
   // Otvor pro hlavni kabelovy svazek
-  translate([sirka+ rohy_prumer/2 + 1.5,vyska,tloustka + 8/2 + 1]) rotate([90,0,0]) cylinder(d=8,h=20,$fn=32,center=true);
+  translate([sirka+ rohy_prumer/2 + 3,vyska,tloustka + 8/2 + 2.5]) rotate([90,0,0]) cylinder(d=11,h=20,$fn=32,center=true);
   
-  translate([sirka+ rohy_prumer/2 + 1.5,vyska,tloustka + 8/2 + 1 + sloupek]) rotate([90,0,0]) cylinder(d=8,h=20,$fn=32,center=true);
+  translate([sirka+ rohy_prumer/2 + 3,vyska,tloustka + 8/2 + 2.5 + sloupek]) rotate([90,0,0]) cylinder(d=11,h=20,$fn=32,center=true);
   
-  translate([sirka+ rohy_prumer/2 + 1.5,vyska,tloustka + 8/2 + 1 + sloupek/2]) cube([8,20,sloupek],center=true);
+  translate([sirka+ rohy_prumer/2 + 3,vyska,tloustka + 8/2 + 2.5 + sloupek/2]) cube([11,20,sloupek - 1],center=true);
   
    translate([sirka+ rohy_prumer/2 + 1.5,0,tloustka + 8/2 + 1]) rotate([90,0,0]) cylinder(d=8,h=20,$fn=32,center=true);
   
@@ -283,7 +334,7 @@ module RUMBA_holder()
   
   //translate([cover_corners[0][0] + 55,cover_corners[0][1] - rohy_prumer/2 - 5,tloustka/2 + 15]) rotate([0,90,0]) zip_paska(6);
   
-  translate([sirka/2,vyska - 20 - 5,-tloustka + 1]) mirror([1,0,0]) scale([0.7,0.7,1]) text_RebeliX(tloustka);
+  translate([sirka/2 + 10/2,vyska - 20 - 5,-tloustka + 1]) mirror([1,0,0]) scale([0.9,0.9,1]) text_RebeliX(tloustka);
   }
 }  
 
