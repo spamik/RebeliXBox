@@ -8,7 +8,7 @@
 */
 
 //include <../configuration.scad>
-include </inc/functions.scad>
+include <../inc/functions.scad>
 
 /* ----------- Parametry pro idler ----------- */
 
@@ -315,7 +315,7 @@ module z_leadscrew_holder(motor_part = 1)
 z_leadscrew_holder(0);
 
 // Drzak s kladkami pro vedeni remenu
-translate([0,-part_depth - 5,0]) z_leadscrew_holder(1);
+translate([0,-part_depth - 5,0]) rotate([0,0,180]) mirror([0,1,0]) z_leadscrew_holder(1);
 
 // Vrchni kryty
 translate([-2*part_width + 20,-part_depth - 5,-part_height/2 + cover_height/2]) 
