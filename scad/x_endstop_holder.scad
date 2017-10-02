@@ -1,7 +1,7 @@
 /* 
    === RebeliX BoX ===
 
-   endstop holder x
+   x endstop holder
    GNU GPL v3
    Martin Neruda <neruda@RebeliX.cz>
    http://www.RebeliX.cz
@@ -16,13 +16,13 @@ part_height = 12;
 mount_screws_dist = 8;
 endstop_screws_dist = 10;
 
-module endstop_holder_base()
+module x_endstop_holder_base()
 {
   translate([0,part_length/2 - 6/2,0]) rounded_box(part_width,6,part_height,2,1,0,0,1);
   translate([part_width/4,0,-part_height/2 + 4/2]) rounded_box(part_width/2,part_length,4,2,1,1,1,1);
 }
 
-module endstop_holder_cuts()
+module x_endstop_holder_cuts()
 {
   // Otvory pro pridelani na x_carriage_motor.
   for(i=[-1,1])
@@ -38,13 +38,13 @@ module endstop_holder_cuts()
   translate([part_width/2 - 8 + 5,-part_length/2 + 5 + endstop_screws_dist,0]) rotate([0,0,0]) cylinder(d=2,h=40,$fn=16,center=true);
 }
 
-module endstop_holder_x()
+module x_endstop_holder()
 {
   difference()
   {
-	endstop_holder_base();
-	endstop_holder_cuts();
+	x_endstop_holder_base();
+	x_endstop_holder_cuts();
   }
 }
  
-endstop_holder_x();
+x_endstop_holder();
