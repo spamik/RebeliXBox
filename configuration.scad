@@ -14,19 +14,42 @@
 /* ========================== Z probe ======================= */
 
 // Prumer Z probe
-Z_probe_D = 12.2;
+Z_probe_D = 12.7;
 // Delka Z probe
 Z_probe_H = 62;
 // Delka zavitu
 Z_probe_screw_H = 42;
 // Prumer matky k sonde
-Z_probe_nut_D = 19;
+Z_probe_nut_D = 20;
 // Vyska matky
 Z_probe_nut_H = 3.8;
 // Prumer podlozky k sonde
 Z_probe_washer_D = 22;
 
 
+/* ======================= Motory =========================== */
+
+// Montazni otvory motoru
+motor_mount_holes = [
+  [-31/2,-31/2,0],
+  [31/2,-31/2,0],
+  [31/2,31/2,0],
+  [-31/2,31/2,0]
+];
+
+// Sirka motoru NEMA17
+motor_width = 42.3;
+
+// Delka motoru
+//SX17-1003LQFE
+motor_length = 29.5;
+//SX17-1003, SX17-0503LQEF
+//motor_length = 34;
+//SX17-1005
+//motor_length = 40;
+//SX17-0905
+//motor_length = 48;
+  
 /* ================ Parametry energo retezu ================= */
 
 // Sirka zarazek retezu
@@ -45,6 +68,16 @@ chain_W = chain_mount_W + 0.9;
 //Vzdalenost od profilu
 chain_x_offset = 1.5;
 
+/* ================ Parametry energo retezu pro heatbed ================= */
+
+// Sirka zarazek retezu
+small_mantinel_W = 5.5; 
+
+// Sirka prichytu retezu (v miste, kde jsou otvory na pridelani)
+small_chain_mount_W = 14;
+
+// Vyska retezu 
+small_chain_H = 11;
 
 /* =================== Nastaveni pro osu Z ================== */
 
@@ -122,6 +155,10 @@ M3_nut_D=6.6;
 // Vyska M3 matky
 M3_nut_H = 3;
 
+// Vyska pojistne M3 matky
+M3_nylon_nut_H = 3.8;
+
+// Zapusteni hlavy sroubu
 M3x10_offset = 6; // Sroub M3x10;
 
 // --------------- M4 ----------------
@@ -135,6 +172,9 @@ M4_screw_D = 4.3;
 // Vyska hlavy M4 sroubu
 M4_head_H = 4;
 
+// Prumer M4 podlozek
+M4_washer_D = 8.8;
+
 // Tloustka M4 podlozky
 M4_washer_H = 0.8;
 
@@ -143,6 +183,9 @@ M4_nut_D=8.4;
 
 // Vyska M4 matky
 M4_nut_H=3.5;
+
+// Vyska pojistne M4 matky
+M4_nylon_nut_H = 5;
 
 // --------------- M6 ----------------
 
@@ -286,12 +329,20 @@ idler_screw_D = M4_screw_D;
 idler_screw_head_D = M4_head_D;
 // Vyska hlavy sroubu
 idler_screw_head_H = M4_head_H;
+// $fn hlavy sroubu, 6 = sestihran
+idler_screw_head_fn = 6;
 // Prumer matky
 idler_nut_D = M4_nut_D;
 // Vyska matky
 idler_nut_H = M4_nut_H;
+// Vyska pojistne matky
+idler_nylon_nut_H = M4_nylon_nut_H;
 // Tloustka podlozky
 idler_washer_H = M4_washer_H;
+// Delka sroubu
+idler_screw_L = 35;
+// Delka zapusteni sroubu
+idler_screw_cut_H = idler_screw_L - 2*idler_washer_H - 2*idler_nylon_nut_H - idler_H - 1;
 //*/
 
 
@@ -303,7 +354,7 @@ idler_IN_D = 3;
 idler_CENTER_D = 4;
 idler_H = 8.5;
 idler_Flange_H = (idler_H - 6.5)/2;
-idler_Flange_Deep = 0; 
+idler_Flange_Deep = idler_OUT_D1 - idler_OUT_D2; 
 
 // ---===== M3 - sroub =====--- 
 // Prumer sroubu
@@ -312,12 +363,22 @@ idler_screw_D = M3_screw_D;
 idler_screw_head_D = M3_head_D;
 // Vyska hlavy sroubu
 idler_screw_head_H = M3_head_H;
+// $fn hlavy sroubu, 6 = sestihran
+idler_screw_head_fn = 32;
 // Prumer matky
 idler_nut_D = M3_nut_D;
 // Vyska matky
 idler_nut_H = M3_nut_H;
+// Vyska pojistne matky
+idler_nylon_nut_H = M3_nylon_nut_H;
 // Tloustka podlozky
 idler_washer_H = M3_washer_H;
+// Prumer podlozky
+idler_washer_D = M3_washer_D + 2.2;
+// Delka sroubu
+idler_screw_L = 25;
+// Delka zapusteni sroubu
+idler_screw_cut_H = idler_screw_L - 2*idler_washer_H - 2*idler_nylon_nut_H - idler_H - 1;
 */
 
 
@@ -358,27 +419,3 @@ extrusion_width = 0.66; //Slic3r->Print Settings->Advanced->Default extrusion wi
 // 5 mm => sroub M6x14 s podlozkou
 // 3 mm => sroub M6x12 s podlozkou
 coupler_thickness = 5;
-
-
-/* ======================= Motory =========================== */
-
-// Montazni otvory motoru
-motor_mount_holes = [
-  [-31/2,-31/2,0],
-  [31/2,-31/2,0],
-  [31/2,31/2,0],
-  [-31/2,31/2,0]
-];
-
-// Sirka motoru NEMA17
-motor_width = 42.3;
-
-// Delka motoru
-//SX17-1003LQFE
-motor_length = 29.5;
-//SX17-1003, SX17-0503LQEF
-//motor_length = 34;
-//SX17-1005
-//motor_length = 40;
-//SX17-0905
-//motor_length = 48;
