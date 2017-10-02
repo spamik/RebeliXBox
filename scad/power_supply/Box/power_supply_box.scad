@@ -7,7 +7,7 @@
    http://www.RebeliX.cz
 */
 
-include </inc/functions.scad>
+include <../../inc/functions.scad>
 
 // Sirka EURO konektoru
 power_plug_W = 50;

@@ -8,7 +8,7 @@
 */
 
 //include <../configuration.scad>
-include </inc/functions.scad>
+include <../../inc/functions.scad>
 
 M6_screw_offset = M6x14_offset;
 M3_screw_offset = 6.5;
