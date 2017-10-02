@@ -28,7 +28,7 @@ M3_screw_offset = 4;
 // Delka sroubu pro prisroubovani idleru
 idler_screw_length = 35;
 
-cover_height = big_bearing_H + 3;
+cover_height = big_bearing_H + 2;
 
 // Offset kladek
 bearing_offset = part_depth/2 + idler_OUT_D1/2 + 0.5;
@@ -49,10 +49,19 @@ motor_holder_width = motor_width;
 motor_holder_base_height = 6;
 motor_holder_height = part_height - (sloupek_H + part_height - pulley_H) +  motor_holder_base_height + 4;
 
+// Pozice kladky 1
+idler_1_pos =  bearing_holder_length/2 - part_depth/2 - bearing_offset;
+// Pozice kladky 2
+idler_2_pos = idler_1_pos - idler_OUT_D2 - pulley_gear_D - 2*(belt_thick - belt_tooth_height);
+// Pozice napinaci kladky 
+idler_tens_pos = idler_1_pos + (idler_2_pos - idler_1_pos)/2;
+
+idler_tens_width = bearing_holder_width + M6_washer_D;
+
 // Radius zakulacenych rohu
 corner_rad = 6;
 
-module Z_lead_holder_base(motor_part = 1)
+module z_leadscrew_holder_base(motor_part = 1)
 { 
   rounded_box(part_width,part_depth,part_height,corner_rad,1,0,0,1);
  
@@ -67,11 +76,11 @@ module Z_lead_holder_base(motor_part = 1)
     translate([part_width/2 - bearing_holder_width/2,part_depth/2 - bearing_holder_length/2,-pulley_H/2]) bearing_holder_base();
 	
 	// Zakulaceny roh
-	translate([part_width/2 - bearing_holder_width,-part_depth/2,- pulley_H/2]) fillet(12,part_height - pulley_H,64);
+	translate([part_width/2 - bearing_holder_width,-part_depth/2,- pulley_H/2]) fillet(8,part_height - pulley_H,64);
   }
 }
 
-module Z_lead_holder_cuts(motor_part = 1)
+module Z_leadscrew_holder_cuts(motor_part = 1)
 {
   // Vyrez lozisek
   translate([0,0,-part_height/2 + profile_width - (axial_bearing_H1 + axial_bearing_H2 + big_bearing_H + pulley_H - 4)]) bearing_cut();
@@ -107,24 +116,24 @@ module bearing_holder_base()
   // Rameno pro lozisko
   rounded_box(bearing_holder_width,bearing_holder_length,part_height - pulley_H,4,1,0,0,1);
   
-  translate([0,bearing_holder_length/2 - part_depth/2 - bearing_offset,sloupek_H/2])
+  translate([0,0,sloupek_H/2])
   {
     // Lozisko 1
-	cylinder(d=10,h=sloupek_H + part_height - pulley_H,$fn=64,center=true);
+	  translate([0,idler_1_pos,0]) cylinder(d=10,h=sloupek_H + part_height - pulley_H,$fn=64,center=true);
     // Lozisko 2
-    translate([0,-idler_OUT_D2 - pulley_gear_D - 2*(belt_thick - belt_tooth_height),0]) cylinder(d=10,h=sloupek_H + part_height - pulley_H,$fn=64,center=true);
+    translate([0,idler_2_pos,0]) cylinder(d=10,h=sloupek_H + part_height - pulley_H,$fn=64,center=true);
   }
 }
 
 module bearing_holder_cuts()
 {
-  translate([0,bearing_holder_length/2 - part_depth/2 - bearing_offset,(part_height - pulley_H)/2 + sloupek_H - (idler_screw_length - 17)])
+  translate([0,0,(part_height - pulley_H)/2 + sloupek_H - (idler_screw_length - 17)])
   {
     // Osicka pro lozisko 1
-	rotate([180,0,0]) screw_hole(1,0,idler_nut_D,idler_screw_D,6);
+	  translate([0,idler_1_pos,0]) rotate([180,0,0]) screw_hole(1,0,idler_nut_D,idler_screw_D,6);
 	
     // Osicka pro lozisko 2
-	translate([0,-idler_OUT_D2 - pulley_gear_D - 2*(belt_thick - belt_tooth_height),0]) rotate([180,0,0]) screw_hole(1,0,idler_nut_D,idler_screw_D,6);
+	  translate([0,idler_2_pos,0]) rotate([180,0,0]) screw_hole(1,0,idler_nut_D,idler_screw_D,6);
   }
 }
 
@@ -203,6 +212,63 @@ module cover_cuts()
   screw_hole(1);
   
   translate([0,0,axial_bearing_H1 + axial_bearing_H2 + big_bearing_H + pulley_H + big_bearing_H + cover_height/2 - big_bearing_H]) rotate([180,0,180]) bearing_cut();
+  
+  // Prostor pro hnaci ozubene kolecko
+  cylinder(d=19.5,h=30,$fn=64,center=true);
+}
+
+module z_belt_tensioner_base()
+{
+  bearing_offset = 10;
+  
+  // Zakladna pro pridelani na profil
+  translate([bearing_holder_width/2 - idler_tens_width/2,bearing_holder_length/2 - 10/2,0]) rounded_box(idler_tens_width,10,part_height,3,1,0,0,0);
+  
+  // Rameno pro lozisko  
+  translate([0,-idler_tens_pos/2 - 1/2,-part_height/2 +(part_height - pulley_H)/2 ]) rounded_box(bearing_holder_width,bearing_holder_length + idler_tens_pos + 1,part_height - pulley_H,4,1,0,0,1);
+  
+  // Napinaci lozisko
+  translate([bearing_offset,idler_tens_pos,-part_height/2 +(part_height - pulley_H)/2 + sloupek_H/2]) cylinder(d=10,h=sloupek_H + part_height - pulley_H,$fn=64,center=true);
+  
+  translate([bearing_offset/2,idler_tens_pos,-part_height/2 +(part_height - pulley_H)/2 ]) rounded_box(bearing_holder_width + bearing_offset,11,part_height - pulley_H,4,1,1,1,1);
+  
+  // Vyztuzeni
+  hull()
+  {
+    translate([0,-idler_tens_pos/2 - 1/2,-part_height/2 + 5/2]) rounded_box(bearing_holder_width,bearing_holder_length + idler_tens_pos + 1,5,4,1,0,0,1);
+  
+    translate([bearing_holder_width/2 - idler_tens_width/2,bearing_holder_length/2 - 10/2,-part_height/2 + 5/2]) rounded_box(idler_tens_width,10,5,3,1,0,0,1);
+  }
+
+  // Drazka pro pridelani na profil
+  translate([bearing_holder_width/2 - idler_tens_width/2,bearing_holder_length/2,part_height/2 - profile_width/2]) rotate([90,0,180]) drazka_vertical(idler_tens_width,0);  
+  
+  translate([0,bearing_holder_length/2 - 10,-part_height/2 + part_height - pulley_H]) rotate([0,90,0]) fillet(10,bearing_holder_width);
+}
+
+
+module z_belt_tensioner_cuts()
+{  
+  bearing_offset = 10;
+  
+  // Napinaci lozisko
+  translate([bearing_offset,idler_tens_pos,part_height/2 - pulley_H + sloupek_H - idler_screw_length + 17]) rotate([180,0,0]) screw_hole(1,0,idler_nut_D,idler_screw_D,6);
+  
+  // Otvor pro M6 sroub
+  translate([bearing_holder_width/2 - idler_tens_width + M6_washer_D/2,bearing_holder_length/2 - M6_screw_offset,part_height/2 - profile_width/2]) rotate([90,0,0]) screw_hole(0,0,M6_head_D,M6_screw_D);
+  
+  // Vyrez pro profilovou matku
+  translate([bearing_holder_width/2 - idler_tens_width + M6_washer_D/2,bearing_holder_length/2 + 3/2,part_height/2 - profile_width/2]) cube([profile_nut_W,3,10],center=true);
+}
+
+/* Napinak remenu */
+module z_belt_tensioner()
+{
+  difference()
+  {
+    z_belt_tensioner_base();
+    z_belt_tensioner_cuts();
+  }
 }
 
 /* Drzak motoru */
@@ -236,20 +302,20 @@ module cover()
 }
 
 /* Spodni cast drzaku lozisek */
-module Z_lead_holder(motor_part = 1)
+module z_leadscrew_holder(motor_part = 1)
 {
   difference()
   {
-	Z_lead_holder_base(motor_part);
-	Z_lead_holder_cuts(motor_part);
+	z_leadscrew_holder_base(motor_part);
+	Z_leadscrew_holder_cuts(motor_part);
   } 
 }
 
 // Drzak bez kladek
-Z_lead_holder(0);
+z_leadscrew_holder(0);
 
 // Drzak s kladkami pro vedeni remenu
-translate([0,-part_depth - 5,0]) Z_lead_holder(1);
+translate([0,-part_depth - 5,0]) z_leadscrew_holder(1);
 
 // Vrchni kryty
 translate([-2*part_width + 20,-part_depth - 5,-part_height/2 + cover_height/2]) 

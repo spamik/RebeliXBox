@@ -38,7 +38,7 @@ base_height = profile_width/2;
 holder_offset = 38.5 + mount_dia/2 - rod_offset;
 
 // Pozice drzaku profilu
-holder_height = profile_width + 14;
+holder_height = profile_width + 9;
 
 module Z_holder_base()
 {  
@@ -59,7 +59,7 @@ module Z_holder_base()
    // Drzak hlinikoveho profilu
    translate([holder_offset/2 + profile_width/2 + base_width/4 + gap/2,-base_length/2 + holder_height - profile_width/2,-base_height/2 + profile_width/2]) rounded_box(profile_width + holder_offset -base_width/2 - gap,profile_width,profile_width,2,1,1,1,1);
  
-   translate([holder_offset + profile_width + 5/2,-base_length/2 + holder_height - profile_width/2 + 5/2,-base_height/2 + profile_width/2]) rounded_box(5,profile_width + 5,profile_width,2,1,1,1,1);
+   translate([holder_offset + profile_width + 5/2 + 0.2,-base_length/2 + holder_height - profile_width/2 + 5/2,-base_height/2 + profile_width/2]) rounded_box(5,profile_width + 5,profile_width,2,1,1,1,1);
    
    translate([holder_offset/2 + profile_width/2 + base_width/4 + gap/2 + 5/2,-base_length/2 + holder_height - profile_width/2,-base_height/2 + profile_width/2]) rounded_box(profile_width + holder_offset -base_width/2 - gap + 5,profile_width,profile_width,2,1,1,1,1);
  
@@ -88,7 +88,7 @@ module Z_holder_holes()
   // Vyrez pro profilovou matku
   translate([holder_offset + profile_width/2 ,-base_length/2 + holder_height + 3/2,-base_height/2 + profile_width/2]) rotate([0,0,-90]) profile_nut(10);
   
-  translate([holder_offset + profile_width - 0.3,-base_length/2 + holder_height + 0.3,-base_height/2 + profile_width/2]) cylinder(d=1,h=profile_width + 1,$fn=16,center=true);
+  translate([holder_offset + profile_width - 0.3 + 0.2,-base_length/2 + holder_height + 0.3,-base_height/2 + profile_width/2]) cylinder(d=1,h=profile_width + 1,$fn=16,center=true);
 }
 
 module linear_bearing(nut=1)

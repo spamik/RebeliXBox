@@ -7,7 +7,7 @@
    http://www.RebeliX.cz
 */
 //include <../configuration.scad>
-include </inc/functions.scad>
+include <../inc/functions.scad>
 
 part_width = profile_width;
 holder_height = 8;
