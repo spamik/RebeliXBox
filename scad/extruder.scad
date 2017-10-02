@@ -62,8 +62,8 @@ teflon_holder_height = base_height + 15;
 teflon_holder_length = 31;
 teflon_holder_width = motor_width/2;
 
-echo("Z probe Y-offset",HE_mount_height/2 + Z_probe_D/2);
-echo("Z probe X-offset",motor_width/2 + abs(filament_offset + x_motor_offset) + Z_probe_D/2);
+echo("Z probe Y-offset",HE_mount_height/2 + 19/2);
+echo("Z probe X-offset",abs(filament_offset + x_motor_offset));
 
 module extruder_base()
 {
