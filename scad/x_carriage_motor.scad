@@ -130,7 +130,7 @@ module x_carriage_holes()
   }
      
   // Vyrez pro konektor od X motoru
-  translate([(base_width - 1)/2 + 12 + cable_offset + 1,-base_thick/2 - motor_width/4 + 10/2,0]) motor_connector_cut();
+  //translate([(base_width - 1)/2 + 12 + cable_offset + 1,-base_thick/2 - motor_width/4 + 10/2,0]) motor_connector_cut();
   
   // Otvory pro pridelani X endstopu
   translate([profile_width/2 + chain_holder_W/2 + chain_x_offset + 8/2,-base_thick/2 + rail_W + chain_holder_H/2 + chain_holder_offset,-base_height/2 + chain_holder_L]) cylinder(d=2,h=20,$fn=16,center=true);
