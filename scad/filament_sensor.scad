@@ -40,6 +40,9 @@ module filament_sensor_holes()
   // Vyrez pro pneufit
   translate([-part_W/2,9.2,part_H/2 - offset + 6.4/2]) rotate([0,90,0]) cylinder(d=4.5,h=2*4.5,$fn=32,center=true);
   
+  // Nabeh pro filament
+  translate([part_W/2 - 2,9.2,part_H/2 - offset + 6.4/2]) rotate([0,90,0]) cylinder(d1=2,d2=6,h=6,$fn=32,center=true);
+  
   // Otvor pro M6 sroub
   translate([-part_W/2 + profile_width/2,-part_L/2 + part_L + M6_washer_D/2,0]) cylinder(d=M6_screw_D,h=20,$fn=32,center=true);
 }
