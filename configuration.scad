@@ -107,7 +107,7 @@ rail_first_hole = 11;
 // Vzdalenost otvoru v kolejnici
 rail_hole_distance = 25;
 
-// Otvory pro pridelani na voziku MGN12
+// Otvory pro pridelani na voziku MGN12H
 MGN12_holes = [
   [10, 10, 0],
   [10, -10, 0],
@@ -115,12 +115,28 @@ MGN12_holes = [
   [-10, 10, 0]
 ];
 
-// Vyska pojezdu MGN12_H i s kolejnici
+// Otvory pro pridelani na voziku MGN12C
+MGN12C_holes = [
+  [10, 15/2, 0],
+  [10, -15/2, 0],
+  [-10, -15/2, 0],
+  [-10, 15/2, 0]
+];
+
+// Vyska pojezdu MGN12H i s kolejnici
 MGN12_H = 13;
 
-// Sirka voziku MGN12
+// Sirka voziku MGN12H
 MGN12_W = 27;
 
+// Tlouska voziku
+MGN12_carr_H = 10;
+
+// Delka voziku MGN12C
+MGN12C_L = 35 - 4;
+
+// Delka voziku MGN12H
+MGN12H_L = 45;
 
 /* ======================= Obecne =========================== */
 
@@ -159,7 +175,9 @@ M3_nut_H = 3;
 M3_nylon_nut_H = 3.8;
 
 // Zapusteni hlavy sroubu
-M3x10_offset = 6; // Sroub M3x10;
+M3x10_offset = 10 - 4;  // Sroub M3x10;
+M3x16_offset = 16 - 4;  // Sroub M3x16;
+M3x20_offset = 20 - 4;  // Sroub M3x20;
 
 // --------------- M4 ----------------
 
@@ -212,6 +230,11 @@ M6x14_offset = 7; // Sroub M6x14;
 profile_nut_W = 9.5;
 //profile_nut_W = 0;
 
+// --------------- M8 ----------------
+
+// Tloustka M8 podlozky
+M8_washer_H = 1.52;
+
 /* ======================== Remenice ======================== */
 
 // ------------- GT2/20 --------------
@@ -229,6 +252,22 @@ pulley_H = GT2_pulley_H;
 pulley_gear_D = GT2_pulley_gear_D;
 // Vydalenost zubu na ozubenem kole od hrany s cervikem
 pulley_teeth_offset = GT2_pulley_teeth_offset;
+
+// ------------- GT2/40 --------------
+
+// Vyska ozubeneho kolecka
+//GT2_pulley_H = 16;
+// Prumer v miste zubu na ozubenem kolecku
+//GT2_pulley_gear_D = 12.2;
+// Vydalenost zubu na ozubenem kole od hrany s cervikem
+//GT2_pulley_teeth_offset = 7;
+
+// Vyska ozubeneho kolecka 
+//pulley_H = GT2_pulley_H;
+// Prumer v miste zubu na ozubenem kolecku
+//pulley_gear_D = GT2_pulley_gear_D;
+// Vydalenost zubu na ozubenem kole od hrany s cervikem
+//pulley_teeth_offset = GT2_pulley_teeth_offset;
 
 
 /* ========================== Remen ========================= */
@@ -279,9 +318,9 @@ bearing_608_H = 7;
 // ----------- Lozisko F624 ----------
 
 // Vnejsi prumer loziska
-bearing_F624_OUT_D1 = 16;
+bearing_F624_OUT_D1 = 16 ;
 // Vnejsi prumer zuzene casti loziska
-bearing_F624_OUT_D2 = 13;
+bearing_F624_OUT_D2 = 13 + 0.3;
 // Vnitrni prumer loziska
 bearing_F624_IN_D = 4;
 // Vnejsi prumer otocneho stredu loziska
