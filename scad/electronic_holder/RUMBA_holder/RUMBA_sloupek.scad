@@ -10,7 +10,7 @@
 //include <../../configuration.scad>
 include <../../inc/functions.scad>
 
-length = 30;
+length = 36;
 
 module base()
 {
