@@ -7,6 +7,6 @@
    http://www.RebeliX.cz
 */
 
-use <../z_leadscrew_holder.scad>
+use <z_leadscrew_holder.scad>
 
 z_motor_holder();
