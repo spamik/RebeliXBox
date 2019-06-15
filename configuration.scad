@@ -26,6 +26,10 @@ Z_probe_nut_H = 3.8;
 // Prumer podlozky k sonde
 Z_probe_washer_D = 22;
 
+/* ======================  BLTouch ===========================*/
+BLT_body_w = 13.5;
+BLT_body_h = 15.1;
+
 
 /* ======================= Motory =========================== */
 
