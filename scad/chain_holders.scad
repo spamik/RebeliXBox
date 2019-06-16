@@ -211,9 +211,11 @@ y_chain_holder(1);
 translate([15,75,0]) 
 y_chain_holder(1);
 
-translate([0,110,motor_base_height/2 - 20/2]) 
+
+/*translate([0,110,motor_base_height/2 - 20/2]) 
 rotate([0,0,90]) 
 chain_holder_motor();
+*/
 
 translate([60,0,-20/2 + 15/2])
 { 
