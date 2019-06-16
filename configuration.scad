@@ -60,14 +60,14 @@ motor_length = 29.5;
 mantinel_W = 1.4; 
 
 // Sirka prichytu retezu (v miste, kde jsou otvory na pridelani)
-chain_mount_W = 18;
+chain_mount_W = 22.6;
 
 // Vyska retezu 
-chain_H = 15.4;
+chain_H = 13.3;
 //chain_H = 14.8;
 
 // Sirka retezu
-chain_W = chain_mount_W + 0.9;
+chain_W = chain_mount_W;// + 0.9;
 
 //Vzdalenost od profilu
 chain_x_offset = 1.5;
