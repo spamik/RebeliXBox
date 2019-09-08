@@ -17,7 +17,7 @@ module y_endstop_activator_base(holder_length = 24.6)
 {
   rounded_box(18 + 5,5,profile_width - 10,corner_rad,0,0,1,0);
   
-  translate([-(18 + 5)/2 + 5/2,- 5/2 + holder_length/2,0])  rounded_box(5,holder_length,profile_width - 10,corner_rad - 1,0,0,1,0);
+  translate([-(18 + 5)/2 + 5/2,- 5/2 + holder_length/2+18/2,0])  rounded_box(5,holder_length+18,profile_width - 10,corner_rad - 1,0,0,1,0);
   
   // Drazka pro pridelani do profilu
   translate([0,-5/2,0]) cube([18 + 5,3,8],center=true);
@@ -84,5 +84,5 @@ module y_endstop_activator(holder_length)
   } 
 }
 
-translate([0,-motor_width/2,0]) rotate([0,180,0]) y_endstop_holder();
+//translate([0,-motor_width/2,0]) rotate([0,180,0]) y_endstop_holder();
 translate([0,15,(profile_width - 10)/2 - 4/2]) y_endstop_activator(24.6);
