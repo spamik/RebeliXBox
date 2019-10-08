@@ -19,7 +19,7 @@ endstop_screws_dist = 10;
 module x_endstop_holder_base()
 {
   translate([0,part_length/2 - 6/2,0]) rounded_box(part_width,6,part_height,2,1,0,0,1);
-  translate([part_width/4+14/2,0,-part_height/2 + 4/2]) rounded_box(part_width/2+14,part_length,4,2,1,1,1,1);
+  translate([part_width/4+19/2,0,-part_height/2 + 4/2]) rounded_box(part_width/2+19,part_length,4,2,1,1,1,1);
 }
 
 module x_endstop_holder_cuts()
@@ -33,9 +33,9 @@ module x_endstop_holder_cuts()
   }
 
   // Otvory pro pridelani endstopu  
-  translate([part_width/2 - 8 + 5+14,-part_length/2 + 5,0]) rotate([0,0,0]) cylinder(d=2,h=40,$fn=16,center=true);
+  translate([part_width/2 - 8 + 5+19,-part_length/2 + 5,0]) rotate([0,0,0]) cylinder(d=2,h=40,$fn=16,center=true);
   
-  translate([part_width/2 - 8 + 5+14,-part_length/2 + 5 + endstop_screws_dist,0]) rotate([0,0,0]) cylinder(d=2,h=40,$fn=16,center=true);
+  translate([part_width/2 - 8 + 5+19,-part_length/2 + 5 + endstop_screws_dist,0]) rotate([0,0,0]) cylinder(d=2,h=40,$fn=16,center=true);
 }
 
 module x_endstop_holder()
