@@ -10,7 +10,7 @@
 //include <../../configuration.scad>
 include <../../inc/functions.scad>
 
-length = 36;
+length = 30;
 
 module base()
 {
@@ -19,9 +19,7 @@ module base()
 
 module cuts()
 {
-  translate([-length/2+7,0,0]) rotate([0,-90,0]) nut_hole(0);
-  translate([length/2-7,0,0]) rotate([0,-90,0]) nut_hole(0);
-  translate([length/2,0,0]) rotate([0,-90,0]) cylinder(d=3.6,h=20,$fn=16,center=true);
+  translate([length/2,0,0]) rotate([0,-90,0]) cylinder(d=3.6,h=length*2+1,$fn=16,center=true);
 }
 
 module sloupek()
