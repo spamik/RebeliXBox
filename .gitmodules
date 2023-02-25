@@ -1,0 +1,3 @@
+[submodule "addons/pca9632-rgbw-led-controller"]
+	path = addons/pca9632-rgbw-led-controller
+	url = git@github.com:spamik/pca9632-rgbw-led-controller.git
